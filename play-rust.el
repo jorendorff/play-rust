@@ -83,16 +83,39 @@
 
 (defun play-rust--compile-suggest ()
   "Find a reasonable `cargo` command to try to run, based on the
-content of the current buffer."
-  (save-excursion
-    (goto-char (point-min))
-    (cond
-     ((re-search-forward "#\\s-*\\[\\s-*test\\s-*\\]" nil t)
-      (concat play-rust-cargo-command " test "))
-     ((re-search-forward "\\_<fn\\s-+main\\_>" nil t)
-      (concat play-rust-cargo-command " run "))
-     (t
-      (concat play-rust-cargo-command " check ")))))
+content of the current buffer. Also rename the file if needed
+(see `play-rust--maybe-rename-file')."
+  (let* ((has-test
+          (save-excursion
+            (goto-char (point-min))
+            (re-search-forward "#\\s-*\\[\\s-*test\\s-*\\]" nil t)))
+         (has-main
+          (save-excursion
+            (goto-char (point-min))
+            (re-search-forward "\\_<fn\\s-+main\\_>" nil t))))
+    (play-rust--maybe-rename-file has-main)
+    (concat play-rust-cargo-command
+            " "
+            (cond (has-test "test")
+                  (has-main "run")
+                  (t "check"))
+            " ")))
+
+(defun play-rust--maybe-rename-file (has-main)
+  "If `has-main' is nil, quietly try to rename the file and
+buffer to `lib.rs`, so `cargo` will build it as a library. If
+`has-main' is non-nil, rename back to `main.rs`.
+
+Needed because, if the user deletes `fn main`, we must build the
+file as a library (building it as an application won't work, no
+matter what `cargo` command you use)."
+  (let* ((current (buffer-file-name))
+         (target (expand-file-name (if has-main "main.rs" "lib.rs") (file-name-directory current))))
+    (unless (string-equal current target)
+      (condition-case nil
+          (progn (rename-file current target)
+                 (set-visited-file-name target))
+        (file-already-exists nil)))))
 
 (defun play-rust--maybe-select-compile-command ()
   "If in a play-rust buffer, set `compile-command' to some `cargo` command line.
