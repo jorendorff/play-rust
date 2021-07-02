@@ -113,3 +113,5 @@ set `compile-command` to some `cargo` command line."
   (apply orig args))
 
 (advice-add 'compile :around #'play-rust--compile-advice)
+
+;;; play-rust.el ends here

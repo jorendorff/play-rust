@@ -6,6 +6,9 @@ into `main.rs`.
 It also sets `compile-command` so that `M-x compile` knows that you probably
 want to do `cargo run`.
 
+### Installation
+
+Grab the source, open `play-rust.el`, and do `M-x package-install-from-buffer`.
 
 ### Future directions
 
