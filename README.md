@@ -4,7 +4,10 @@ This package makes `M-x play-rust` start a new Rust project and drop you right
 into `main.rs`.
 
 It also sets `compile-command` so that `M-x compile` knows that you probably
-want to do `cargo run`.
+want to do `cargo run`. (It'll suggest `cargo test` intead if you've added a
+test, just like <https://play.rust-lang.org>. And if your file has neither `fn
+main` nor a test, it'll offer `cargo check`.)
+
 
 ### Installation
 
