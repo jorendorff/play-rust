@@ -95,8 +95,11 @@ content of the current buffer."
       (concat play-rust-cargo-command " check ")))))
 
 (defun play-rust--maybe-select-compile-command ()
-  "If in a play-rust buffer, and `compile-command` is untouched (it is the same ,
-set `compile-command` to some `cargo` command line."
+  "If in a play-rust buffer, set `compile-command' to some `cargo` command line.
+
+Out of caution, if `compile-command` has changed from whatever
+was last suggested, e.g. if the user added command-line options
+like `--release`, then this does nothing."
   (when (and (local-variable-p 'play-rust--last-compile-command)
              (or (not play-rust--last-compile-command)
                  (string-equal (string-trim compile-command)
