@@ -8,6 +8,10 @@ want to do `cargo run`. (It'll suggest `cargo test` intead if you've added a
 test, just like <https://play.rust-lang.org>. And if your file has neither `fn
 main` nor a test, it'll offer `cargo check`.)
 
+If you delete the `fn main` from your playground, `M-x compile` will quietly
+rename your Rust file from `main.rs` to `lib.rs` (to keep `rustc` from
+complaining that you don't have a `fn main`).
+
 
 ### Installation
 
@@ -16,9 +20,6 @@ Grab the source, open `play-rust.el`, and do `M-x package-install-from-buffer`.
 ### Future directions
 
 *   Basics:
-
-    *   Make compilation work even if you've deleted `main`, perhaps by
-        silently renaming the file and buffer to `lib.rs`.
 
     *   Eliminate the "`main.rs` is not part of any project. Select action:"
         speed bump.
@@ -33,6 +34,9 @@ Grab the source, open `play-rust.el`, and do `M-x package-install-from-buffer`.
         `compile-command` does not match our last suggestion exactly.)
 
     *   Suggest `+nightly` if the buffer contains `#![feature`.
+
+    *   Prevent `lsp-mode` from getting very angry-faced when the user deletes
+        `fn main`, until the next `compile`.
 
 *   Auto-populate Cargo.toml dependencies on compilation (e.g. if I use
     `rand::random`, don't force me to edit `Cargo.toml`)
