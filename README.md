@@ -24,6 +24,13 @@ Grab the source, open `play-rust.el`, and do `M-x package-install-from-buffer`.
         we currently run it in `src` and I think that's why `next-error`
         doesn't find the right file when there are compilation errors.
 
+    *   Keep `compile`'s DWIM code activated if the user has done certain kinds
+        of command-line edits that we can parse and understand, e.g. adding
+        `+nightly` or `--release`. (Currently, out of caution, we bail out if
+        `compile-command` does not match our last suggestion exactly.)
+
+    *   Suggest `+nightly` if the buffer contains `#![feature`.
+
 *   Auto-populate Cargo.toml dependencies on compilation (e.g. if I use
     `rand::random`, don't force me to edit `Cargo.toml`)
 
