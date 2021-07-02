@@ -9,27 +9,36 @@ want to do `cargo run`.
 
 ### Future directions
 
-*   Make compilation work even if you've deleted `main`, perhaps by silently
-    renaming the file and buffer to `lib.rs`.
+*   Basics:
+
+    *   Make compilation work even if you've deleted `main`, perhaps by
+        silently renaming the file and buffer to `lib.rs`.
+
+    *   Eliminate the "`main.rs` is not part of any project. Select action:"
+        speed bump.
+
+    *   Make `compile` run the `cargo` command in the project root directory;
+        we currently run it in `src` and I think that's why `next-error`
+        doesn't find the right file when there are compilation errors.
 
 *   Auto-populate Cargo.toml dependencies on compilation (e.g. if I use
     `rand::random`, don't force me to edit `Cargo.toml`)
 
-*   Menu of playgrounds, using first line of `main.rs` (should put a comment on
-    that line when first opening the file, maybe, as a hint ... for playgrounds
-    where nobody bothered to edit the first line, perhaps show the first line
-    of the file that is unique across playgrounds)
-
-*   GC `target` directories that haven't been used for a while
-
-*   Full text search of playgrounds
-
 *   Ability to publish to play.rust-lang.org for sharing,
     copying the link to your clipboard and/or opening it in a browser
 
-*   benchmark support?
+*   Support for keeping old playgrounds lying around:
 
-*   consider adding a minor mode, under rust-mode, so we can steal some
+    *   Menu of playgrounds, using first line of `main.rs` (should put a
+        comment on that line when first opening the file, maybe, as a hint ...
+        for playgrounds where nobody bothered to edit the first line, perhaps
+        show the first line of the file that is unique across playgrounds)
+
+    *   GC `target` directories that haven't been used for a while
+
+    *   Full text search of playgrounds
+
+*   Consider adding a minor mode, under rust-mode, so we can steal some
     features from `rust-playground`:
 
     - bind `C-c C-c` to a `compile` that skips the compile-command prompt
@@ -40,4 +49,4 @@ want to do `cargo run`.
 
     I don't know what any of these bindings do in `rust-mode`.
 
-*   submit to ELPA
+*   Submit to ELPA
